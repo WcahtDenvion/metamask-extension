@@ -227,6 +227,15 @@ class HeaderNavbar {
     await this.driver.clickElement(this.notificationsButton);
   }
 
+  /**
+   * Dismisses the network addresses quick-copy popover by clicking outside it
+   * (page origin). This triggers the popover's click-outside handler instead
+   * of relying on hover-leave events.
+   */
+  async dismissNetworkAddressesPopover(): Promise<void> {
+    await this.driver.clickPoint('body', 1, 1);
+  }
+
   async goToNotifications(): Promise<void> {
     await this.navigateToNotificationsPage();
   }
