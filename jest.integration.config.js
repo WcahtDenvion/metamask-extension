@@ -74,7 +74,11 @@ module.exports = {
     '^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)':
       'jest-preview/transforms/file',
   },
-  transformIgnorePatterns: ['/node_modules/'],
+  // Transform @metamask packages with Babel: newer Core releases (e.g.
+  // bridge-controller) ship ESM-only, including nested dependency copies.
+  // lodash-es is ESM-only and is hoisted to the root by those same packages.
+  // Everything else in node_modules is left untransformed for speed.
+  transformIgnorePatterns: ['/node_modules/(?!(@metamask/|lodash-es))'],
   // Ensure console output is buffered (not streamed) so reporters can access testResult.console
   // Without this, Jest uses verbose mode for single-file runs which bypasses buffering
   verbose: false,
